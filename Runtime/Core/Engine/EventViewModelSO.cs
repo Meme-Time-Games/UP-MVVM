@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Core
+namespace MVVM.Core
 {
     [CreateAssetMenu(fileName = "EventViewModelSO", menuName = "ScriptableObjects/EventViewModelSO")]
     public class EventViewModelSO : ScriptableObject

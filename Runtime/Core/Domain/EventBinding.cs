@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Core
+namespace MVVM.Core
 {
     public interface IEventViewModel
     {
