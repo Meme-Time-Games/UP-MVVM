@@ -1,7 +1,9 @@
 {
     "name": "Editor.MVVM.Core",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:6924c379369b83e4d87549b6fdacec70"
+    ],
     "includePlatforms": [
         "Editor"
     ],
