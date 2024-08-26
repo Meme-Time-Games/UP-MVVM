@@ -132,6 +132,14 @@ namespace MVVM.CoreEditor
             
             GUILayout.BeginVertical("box");
 
+            if (ReferenceEquals(_sceneReferenceComponents, null))
+            {
+                GUILayout.Label("Search again!");
+                GUILayout.EndVertical();
+                
+                return;
+            }
+            
             if (_sceneReferenceComponents.Count <= 0)
                 GUILayout.Label("Nothing Found");
 
