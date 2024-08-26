@@ -2,7 +2,7 @@
 
 namespace View
 {
-    public class OnClickButtonView : ButtonView
+    public class ClickerButtonView : ButtonView
     {
         protected override void Subscribe(Button button)
         {

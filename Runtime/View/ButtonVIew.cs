@@ -1,5 +1,4 @@
-﻿using System;
-using MVVM.Core;
+﻿using MVVM.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +24,11 @@ namespace View
         protected void Raise()
         {
             _eventViewModel.RaiseEvent();
+        }
+
+        private void OnDestroy()
+        {
+            Dispose(_button);
         }
 
         protected abstract void Dispose(Button button);

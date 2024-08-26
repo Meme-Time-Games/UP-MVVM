@@ -172,7 +172,7 @@ namespace MVVM.CoreEditor
         
         private void DrawProjectReferences()
         {
-            GUILayout.Label("Project References");
+            GUILayout.Label("Prefab References");
             
             GUILayout.BeginVertical("box");
             
