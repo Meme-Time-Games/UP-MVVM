@@ -26,7 +26,6 @@ namespace MVVM.CoreEditor
         {
             if (Selection.activeObject is not EventViewModelSO)
             {
-                Debug.LogError("No EventViewModel Selected");
                 return;
             }
 
