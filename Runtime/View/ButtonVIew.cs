@@ -10,6 +10,12 @@ namespace View
         [SerializeField] protected Button _button;
         [SerializeField] private EventViewModelSO _eventViewModelSo;
 
+        [Header("Config")] 
+        [SerializeField] private bool _isOneTimePressed;
+
+        [Header("Debug")] 
+        [SerializeField] private bool _wasPressed;
+
         private IEventViewModel _eventViewModel;
 
         private void Awake()
@@ -23,6 +29,11 @@ namespace View
 
         protected void Raise()
         {
+            if (_isOneTimePressed && _wasPressed)
+                return;
+            
+            _wasPressed = true;
+            
             _eventViewModel.RaiseEvent();
         }
 
