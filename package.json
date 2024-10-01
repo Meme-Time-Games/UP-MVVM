@@ -1,28 +1,25 @@
 {
-  "name": "com.aconcagua.mvvm",
-  "version": "1.1.0",
+  "name": "com.mtg.mvvm",
+  "version": "1.2.0",
   "displayName": "MVVM",
-  "description": "",
   "unity": "2020.3",
   "unityRelease": "0b5",
   "documentationUrl": "",
   "changelogUrl": "",
   "licensesUrl": "",
-  "keywords": [
-  ],
+  "keywords": [],
   "author": {
-    "name": "Aconcagua",
+    "name": "MTG",
     "email": "",
     "url": ""
   },
   "type": "tool",
   "hideInEditor": false,
-  "samples": 
-[
-	{
-		"displayName": "Samples",
-		"description": "",
-		"path": "Samples~/"
-	}
-]
+  "samples": [
+    {
+      "displayName": "Samples",
+      "description": "",
+      "path": "Samples~/"
+    }
+  ]
 }
