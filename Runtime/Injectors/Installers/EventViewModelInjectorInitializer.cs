@@ -1,4 +1,5 @@
-﻿using DependencyInjector.Installers;
+﻿using System;
+using DependencyInjector.Installers;
 using MVVM.Core;
 using UnityEngine;
 
@@ -21,6 +22,11 @@ namespace MVVM
         private void Inject()
         {
             _monoInjector.InjectAll();
+        }
+
+        private void OnDestroy()
+        {
+            _eventViewModel.OnEventRaised -= Inject;
         }
     }
 }
