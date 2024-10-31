@@ -183,7 +183,7 @@ namespace MVVM.CoreEditor
             
             GUILayout.BeginVertical("box");
             
-            if (_projectReferenceObjects.Count <= 0)
+            if (_projectReferenceObjects == null || _projectReferenceObjects.Count <= 0)
                 GUILayout.Label("Nothing Found");
             
             foreach (var objectReferenced in _projectReferenceObjects)

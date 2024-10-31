@@ -1,5 +1,4 @@
-﻿using System;
-using DependencyInjector.Installers;
+﻿using DependencyInjector.Installers;
 using MVVM.Core;
 using UnityEngine;
 
