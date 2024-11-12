@@ -8,7 +8,7 @@ namespace TimerRaiser
     public class TimerRaiseCommandInstaller : CommandInstaller
     {
         [Header("Config")] 
-        [SerializeField] private  int _time;
+        [SerializeField] private float _time;
 
         [Header("References")]
         [SerializeField] private EventViewModelSO _onTimerDoneEventViewModelSO;

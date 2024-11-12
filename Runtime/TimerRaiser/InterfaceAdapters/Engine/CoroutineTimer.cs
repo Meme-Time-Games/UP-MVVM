@@ -8,13 +8,13 @@ namespace TimerRaiser
     {
         public Action OnTimerDone { get; set; }
         
-        public void StartTimer(int time)
+        public void StartTimer(float time)
         {
             StopAllCoroutines();
             StartCoroutine(RunTimer(time));
         }
 
-        public IEnumerator RunTimer(int time)
+        private IEnumerator RunTimer(float time)
         {
             yield return new WaitForSeconds(time);
             OnTimerDone?.Invoke();

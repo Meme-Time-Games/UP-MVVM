@@ -7,10 +7,10 @@ namespace TimerRaiser
     public class TimerRaiseCommand : ICommand, IDisposable
     {
         private readonly ITimer _timer;
-        private readonly int _time;
+        private readonly float _time;
         private readonly IEventViewModel _onTimerDoneEventViewModel;
 
-        public TimerRaiseCommand(ITimer timer, int time, IEventViewModel onTimerDoneEventViewModel)
+        public TimerRaiseCommand(ITimer timer, float time, IEventViewModel onTimerDoneEventViewModel)
         {
             _timer = timer;
             _time = time;
