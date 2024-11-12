@@ -21,7 +21,6 @@ namespace MVVM
         private void Dispose()
         {
             _monoInjector.Dispose();
-            _eventViewModel.OnEventRaised -= Dispose;
         }
 
         private void OnDestroy()
