@@ -7,7 +7,7 @@ namespace TimerRaiser
     {
         protected override ITimer GetData()
         {
-            GameObject coroutineTimerGO = GameObject.Find("CoroutinesTimer");
+            GameObject coroutineTimerGO = new GameObject("CoroutinesTimer");
             coroutineTimerGO.transform.SetParent(transform);
             
             ITimer timer = coroutineTimerGO.AddComponent<CoroutineTimer>();
