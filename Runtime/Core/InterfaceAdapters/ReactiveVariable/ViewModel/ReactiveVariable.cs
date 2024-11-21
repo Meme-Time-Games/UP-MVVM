@@ -17,6 +17,9 @@ namespace MVVM.Core
         public void SetValue(TValue value)
         {
             _value = value;
+#if UNITY_EDITOR
+            OnValueChanged?.Invoke();
+#endif
         }
 
         public void SetValueAndNotify(TValue value)

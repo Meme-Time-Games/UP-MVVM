@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace MVVM.Core
 {
-    public class BaseReactiveVariableSO : ScriptableObject
-    {
-        
-    }
-    
     public abstract class ReactiveVariableSO<TValue> : BaseReactiveVariableSO
     {
         [Header("Config")] 
         [SerializeField] private TValue _defaultValue = default;
+
+#if UNITY_EDITOR
+        [Header("Debug")] 
+        [SerializeField] private TValue _value;
+#endif
         
         private IReactiveVariable<TValue> _reactiveVariable = null;
         
@@ -30,11 +30,24 @@ namespace MVVM.Core
 #endif
             
             if (ReferenceEquals(_reactiveVariable, null))
+            {
                 _reactiveVariable = new ReactiveVariable<TValue>(_defaultValue);
+                
+#if UNITY_EDITOR
+                _reactiveVariable.OnValueChanged += UpdateValue;
+#endif
+            }
             
             return _reactiveVariable;
         }
 
+#if UNITY_EDITOR
+        private void UpdateValue()
+        {
+            _value = _reactiveVariable.Value;
+        }
+#endif
+        
 #if UNITY_EDITOR
         private void ChangePlayMode(PlayModeStateChange playModeStateChange)
         {
@@ -44,7 +57,10 @@ namespace MVVM.Core
             
             _isSubscribedToPlayModeChanged = false;
             EditorApplication.playModeStateChanged += ChangePlayMode;
-
+            
+            if(null != _reactiveVariable)
+                _reactiveVariable.OnValueChanged -= UpdateValue;
+            
             _reactiveVariable = null;
         }
 #endif
