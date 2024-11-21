@@ -3,7 +3,12 @@ using UnityEngine;
 
 namespace MVVM.Core
 {
-    public abstract class ReactiveVariableSO<TValue> : ScriptableObject
+    public class BaseReactiveVariableSO : ScriptableObject
+    {
+        
+    }
+    
+    public abstract class ReactiveVariableSO<TValue> : BaseReactiveVariableSO
     {
         [Header("Config")] 
         [SerializeField] private TValue _defaultValue = default;
