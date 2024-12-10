@@ -141,7 +141,11 @@ namespace MVVM.CoreEditor
             }
             
             if (_sceneReferenceComponents.Count <= 0)
+            {
                 GUILayout.Label("Nothing Found");
+                GUILayout.EndVertical();
+                return;
+            }
 
             Dictionary<string, List<Component>> _componentsByScene = new Dictionary<string, List<Component>>();
             
@@ -184,7 +188,11 @@ namespace MVVM.CoreEditor
             GUILayout.BeginVertical("box");
             
             if (_projectReferenceObjects == null || _projectReferenceObjects.Count <= 0)
+            {
                 GUILayout.Label("Nothing Found");
+                GUILayout.EndVertical();
+                return;
+            }
             
             foreach (var objectReferenced in _projectReferenceObjects)
             {
