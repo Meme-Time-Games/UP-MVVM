@@ -11,10 +11,10 @@ namespace MVVM.CoreEditor
         private List<Component> _sceneReferenceComponents;
         private List<Object> _projectReferenceObjects;
         
-        [MenuItem("Tools/Event Search")]
+        [MenuItem("Tools/MVVM/Event Searcher")]
         public static void ShowWindow()
         {
-            GetWindow(typeof(EventViewModelReferencesEditorWindow));
+            GetWindow(typeof(EventViewModelReferencesEditorWindow), true ,"Event Searcher");
         }
 
         private void OnEnable()
