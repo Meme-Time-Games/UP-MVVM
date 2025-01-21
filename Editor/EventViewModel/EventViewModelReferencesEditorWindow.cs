@@ -14,7 +14,7 @@ namespace MVVM.CoreEditor
         [MenuItem("Tools/MVVM/Event Searcher")]
         public static void ShowWindow()
         {
-            GetWindow(typeof(EventViewModelReferencesEditorWindow), true ,"Event Searcher");
+            GetWindow(typeof(EventViewModelReferencesEditorWindow), false, "Event Searcher");
         }
 
         private void OnEnable()

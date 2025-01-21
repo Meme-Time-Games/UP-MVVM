@@ -14,7 +14,7 @@ namespace MVVM.CoreEditor
         [MenuItem("Tools/MVVM/Reactive Searcher")]
         public static void ShowWindow()
         {
-            GetWindow(typeof(ReactiveVariableReferencesEditorWindow), true ,"Event Searcher");
+            GetWindow(typeof(ReactiveVariableReferencesEditorWindow), false, "Event Searcher");
         }
         
         private void OnEnable()
@@ -37,7 +37,7 @@ namespace MVVM.CoreEditor
         private void DrawSearchReferenceInTheScene(BaseReactiveVariableSO reactiveVariableSO)
         {
             _sceneReferenceComponents = GetAllReferencesInScene(reactiveVariableSO);
-            // _projectReferenceObjects = GetAllReferencesInProject(eventViewModelSo);
+            _projectReferenceObjects = GetAllReferencesInProject(reactiveVariableSO);
         }
 
         private List<Component> GetAllReferencesInScene(BaseReactiveVariableSO reactiveVariableSO)
@@ -77,7 +77,7 @@ namespace MVVM.CoreEditor
             GUILayout.Space(10);
             
             DrawSceneReferences();
-            // DrawProjectReferences();
+            DrawProjectReferences();
         }
         
         private void DrawSceneReferences()
@@ -131,5 +131,75 @@ namespace MVVM.CoreEditor
             GUILayout.EndVertical();
         }
         
+        private List<Object> GetAllReferencesInProject(BaseReactiveVariableSO eventViewModelSo)
+        {
+            List<Object> allReferencedObjects = new List<Object>();
+            string[] allAssetPaths = AssetDatabase.GetAllAssetPaths();
+
+            foreach (string assetPath in allAssetPaths)
+            {
+                Object asset = AssetDatabase.LoadMainAssetAtPath(assetPath);
+
+                if (null == asset) 
+                    continue;
+                
+                if (asset is not GameObject)
+                    continue;
+
+                if (HasReference(asset as GameObject, eventViewModelSo))
+                {
+                    allReferencedObjects.Add(asset);
+                }
+            }
+
+            return allReferencedObjects;
+        }
+
+        private bool HasReference(GameObject gameObject, BaseReactiveVariableSO eventViewModelSo)
+        {
+            Component[] components = gameObject.GetComponents<Component>();
+
+            foreach (var component in components)
+            {
+                SerializedObject serializedObject = new SerializedObject(component);
+                SerializedProperty serializedProperty = serializedObject.GetIterator();
+
+                while (serializedProperty.NextVisible(true))
+                {
+                    if (serializedProperty.propertyType != SerializedPropertyType.ObjectReference ||
+                        serializedProperty.objectReferenceValue != eventViewModelSo)
+                        continue;
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void DrawProjectReferences()
+        {
+            GUILayout.Label("Prefab References");
+            
+            GUILayout.BeginVertical("box");
+            
+            if (_projectReferenceObjects == null || _projectReferenceObjects.Count <= 0)
+            {
+                GUILayout.Label("Nothing Found");
+                GUILayout.EndVertical();
+                return;
+            }
+            
+            foreach (var objectReferenced in _projectReferenceObjects)
+            {
+                if(null == objectReferenced)
+                    continue;
+                
+                if (GUILayout.Button(objectReferenced.name))
+                    Selection.activeObject = objectReferenced;
+            }
+            
+            GUILayout.EndVertical();
+        }
     }
 }
