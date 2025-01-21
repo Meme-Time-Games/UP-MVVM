@@ -11,7 +11,7 @@ namespace MVVM.CoreEditor
         private List<Component> _sceneReferenceComponents;
         private List<Object> _projectReferenceObjects;
 
-        [MenuItem("Tools/ReactiveVariable References Searcher")]
+        [MenuItem("Tools/Reactive Search")]
         public static void ShowWindow()
         {
             GetWindow(typeof(ReactiveVariableReferencesEditorWindow));

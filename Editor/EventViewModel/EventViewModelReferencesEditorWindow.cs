@@ -11,7 +11,7 @@ namespace MVVM.CoreEditor
         private List<Component> _sceneReferenceComponents;
         private List<Object> _projectReferenceObjects;
         
-        [MenuItem("Tools/EventViewModelSo References Searcher")]
+        [MenuItem("Tools/Event Search")]
         public static void ShowWindow()
         {
             GetWindow(typeof(EventViewModelReferencesEditorWindow));
