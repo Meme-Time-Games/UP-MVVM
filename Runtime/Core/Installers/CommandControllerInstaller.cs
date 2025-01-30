@@ -10,7 +10,7 @@ namespace MVVM.Core.InterfaceAdapters
         
         protected override void InstallServiceInContainer(IDIContainer diContainer, IController serviceInstance)
         {
-            diContainer.RegisterAsSingle(serviceInstance);
+            diContainer.RegisterAsMultiple(serviceInstance);
         }
 
         protected override IController GetController(IEventViewModel eventBindingViewModel)
