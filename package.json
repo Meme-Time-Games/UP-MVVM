@@ -1,6 +1,6 @@
 {
   "name": "com.mtg.mvvm",
-  "version": "1.17.0",
+  "version": "1.18.0",
   "displayName": "MVVM",
   "unity": "2020.3",
   "unityRelease": "0b5",
@@ -9,7 +9,7 @@
   "licensesUrl": "",
   "keywords": [],
   "author": {
-    "name": "MTG",
+    "name": "Custom",
     "email": "",
     "url": ""
   },
