@@ -4,8 +4,9 @@
     {
         private readonly TUseCase _useCase;
 
-        protected ReactiveVariableControllerWithUseCase(IReactiveVariable<TType> reactiveVariable) : base(reactiveVariable)
+        protected ReactiveVariableControllerWithUseCase(IReactiveVariable<TType> reactiveVariable, TUseCase useCase) : base(reactiveVariable)
         {
+            _useCase = useCase;
         }
 
         protected override void ExecuteWithValue(TType value)
