@@ -1,11 +1,24 @@
+using DependencyInjector.Core;
 using MVVM.Core;
 using MVVM.Core.Installers;
 using MVVM.Core.InterfaceAdapters;
+using UnityEngine;
 
-public class StringEventRaiseReactiveVariableControllerInstaller : ReactiveVariableControllerWithUseCaseInstaller<string, IEventViewModel>
+namespace MVVM
 {
-    protected override IController GetReactiveController(IReactiveVariable<string> reactiveVariable, IEventViewModel useCase)
+    public class StringEventRaiseReactiveVariableControllerInstaller : ReactiveVariableControllerInstaller<string>
     {
-        return new StringEventRaiseReactiveVariableController(reactiveVariable, useCase);
+        [Header("References")]
+        [SerializeField] private EventViewModelSO _eventViewModel;
+
+        protected override void InstallServiceInContainer(IDIContainer diContainer, IController serviceInstance)
+        {
+            diContainer.RegisterAsMultiple(serviceInstance);
+        }
+
+        protected override IController GetController(IReactiveVariable<string> reactiveVariable)
+        {
+            return new StringEventRaiseReactiveVariableController(reactiveVariable, _eventViewModel.GetEventViewModel());
+        }
     }
 }

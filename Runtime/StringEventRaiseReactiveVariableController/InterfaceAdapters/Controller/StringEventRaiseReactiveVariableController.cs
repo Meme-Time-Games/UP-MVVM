@@ -1,14 +1,20 @@
 using MVVM.Core;
 using MVVM.Core.InterfaceAdapters;
 
-public class StringEventRaiseReactiveVariableController  : ReactiveVariableControllerWithUseCase<string, IEventViewModel>
+namespace MVVM
 {
-    public StringEventRaiseReactiveVariableController(IReactiveVariable<string> reactiveVariable, IEventViewModel useCase) : base(reactiveVariable, useCase)
+    public class StringEventRaiseReactiveVariableController  : ReactiveVariableController<string>
     {
-    }
+        private readonly IEventViewModel _eventViewModel;
+    
+        public StringEventRaiseReactiveVariableController(IReactiveVariable<string> reactiveVariable, IEventViewModel eventViewModel) : base(reactiveVariable)
+        {
+            _eventViewModel = eventViewModel;
+        }
 
-    protected override void ExecuteUseCase(IEventViewModel eventViewModel, string _)
-    {
-        eventViewModel.RaiseEvent();
+        protected override void ExecuteWithValue(string _)
+        {
+            _eventViewModel.RaiseEvent();
+        }
     }
 }
