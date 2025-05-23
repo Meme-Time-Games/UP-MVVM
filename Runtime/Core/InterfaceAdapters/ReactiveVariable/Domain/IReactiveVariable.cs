@@ -6,6 +6,11 @@ namespace MVVM.Core
     {
         TValue Value { get; }
         Action OnValueChanged { get; set; }
+        
+#if UNITY_EDITOR
+        public Action OnValueChangedEditorOnly { get; set; }
+#endif
+        
         void SetValue(TValue value);
         void SetValueAndNotify(TValue value);
     }
