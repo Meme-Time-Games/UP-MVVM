@@ -34,7 +34,7 @@ namespace MVVM.Core
                 _reactiveVariable = new ReactiveVariable<TValue>(_defaultValue);
                 
 #if UNITY_EDITOR
-                _reactiveVariable.OnValueChanged += UpdateValue;
+                _reactiveVariable.OnValueChangedEditorOnly += UpdateValue;
 #endif
             }
             
@@ -59,7 +59,7 @@ namespace MVVM.Core
             EditorApplication.playModeStateChanged += ChangePlayMode;
             
             if(null != _reactiveVariable)
-                _reactiveVariable.OnValueChanged -= UpdateValue;
+                _reactiveVariable.OnValueChangedEditorOnly -= UpdateValue;
             
             _reactiveVariable = null;
         }
