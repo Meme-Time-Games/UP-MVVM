@@ -2,12 +2,12 @@
 
 namespace MVVM.Core.InterfaceAdapters
 {
-    public class ReactiveVariableBoolUpdaterCommand : ICommand
+    public class RaiseBoolReactiveVariableCommand : ICommand
     {
         private readonly IReactiveVariable<bool> _boolReactiveVariable;
         private readonly bool _valueToSet;
 
-        public ReactiveVariableBoolUpdaterCommand(IReactiveVariable<bool> boolReactiveVariable, bool valueToSet)
+        public RaiseBoolReactiveVariableCommand(IReactiveVariable<bool> boolReactiveVariable, bool valueToSet)
         {
             _boolReactiveVariable = boolReactiveVariable;
             _valueToSet = valueToSet;
