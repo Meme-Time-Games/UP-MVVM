@@ -1,5 +1,3 @@
-using System;
-using MVVM.Core;
 using MVVM.Core.InterfaceAdapters;
 
 namespace MVVM.Core.Bindings.Implementations
