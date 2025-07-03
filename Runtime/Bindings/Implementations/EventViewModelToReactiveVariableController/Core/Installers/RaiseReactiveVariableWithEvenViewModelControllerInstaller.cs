@@ -4,8 +4,9 @@ using UnityEngine;
 
 namespace MVVM.Core.Bindings.Implementations
 {
-    public abstract class EventViewModelToReactiveVariableControllerInstaller<TType> : ControllerInstaller
+    public abstract class RaiseReactiveVariableWithEvenViewModelControllerInstaller<TType> : ControllerInstaller
     {
+        [Header("References")]
         [SerializeField] private ReactiveVariableSO<TType> _outputReactiveVariable;
 
         protected override IController GetController(IEventViewModel eventViewModel)
