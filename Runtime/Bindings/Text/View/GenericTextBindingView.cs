@@ -8,13 +8,13 @@ namespace MVVM.Bindings
     {
         [Header("References")]
         [SerializeField] protected TMP_Text _text;
-        [SerializeField] protected ReactiveVariableSO<T> _reactiveVariableSO;
+        [SerializeField] protected ReactiveVariableSO<T> _stringReactiveVariableSO;
         
         protected ReactiveVariable<T> _reactiveVariable;
 
         protected virtual void Awake()
         {
-            _reactiveVariable = (ReactiveVariable<T>)_reactiveVariableSO.GetReactiveVariable();
+            _reactiveVariable = (ReactiveVariable<T>)_stringReactiveVariableSO.GetReactiveVariable();
             _reactiveVariable.OnValueChanged += UpdateText;
         }
 
