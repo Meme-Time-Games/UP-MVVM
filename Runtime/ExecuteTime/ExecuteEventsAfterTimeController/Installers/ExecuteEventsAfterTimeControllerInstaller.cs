@@ -19,7 +19,7 @@ namespace MVVM.Core.InterfaceAdapters
 
             for (int i = 0; i < _eventViewModelsToExecute.Length; i++)
             {
-                eventsToExecute[i] = _eventViewModelsToExecute[i].GetEventViewModel();
+                eventsToExecute.Add(_eventViewModelsToExecute[i].GetEventViewModel());
             }
 
             return new ExecuteEventsAfterTimeController(eventBindingViewModel, eventsToExecute, _timer, _timeToWait);
