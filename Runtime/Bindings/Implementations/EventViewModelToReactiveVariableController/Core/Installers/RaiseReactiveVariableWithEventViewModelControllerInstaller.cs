@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MVVM.Core.Bindings.Implementations
 {
-    public abstract class RaiseReactiveVariableWithEvenViewModelControllerInstaller<TType> : ControllerInstaller
+    public abstract class RaiseReactiveVariableWithEventViewModelControllerInstaller<TType> : ControllerInstaller
     {
         [Header("References")]
         [SerializeField] private ReactiveVariableSO<TType> _outputReactiveVariable;

@@ -2,11 +2,11 @@ using MVVM.Core.InterfaceAdapters;
 
 namespace MVVM.Core.Bindings.Implementations
 {
-    public abstract class RaiseReactiveVariableWithEvenViewModelController<TType> : Controller
+    public abstract class RaiseReactiveVariableWithEventViewModelController<TType> : Controller
     {
         private readonly IReactiveVariable<TType> _outputReactiveVariable;
 
-        protected RaiseReactiveVariableWithEvenViewModelController(IEventViewModel eventViewModel, IReactiveVariable<TType> outputReactiveVariable) : base(eventViewModel)
+        protected RaiseReactiveVariableWithEventViewModelController(IEventViewModel eventViewModel, IReactiveVariable<TType> outputReactiveVariable) : base(eventViewModel)
         {
             _outputReactiveVariable = outputReactiveVariable;
         }

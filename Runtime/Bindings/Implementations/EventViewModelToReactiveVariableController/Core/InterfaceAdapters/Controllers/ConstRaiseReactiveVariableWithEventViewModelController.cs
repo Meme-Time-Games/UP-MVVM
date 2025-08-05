@@ -1,10 +1,10 @@
 namespace MVVM.Core.Bindings.Implementations
 {
-    public class ConstRaiseReactiveVariableWithEvenViewModelController<TType> : RaiseReactiveVariableWithEvenViewModelController<TType>
+    public class ConstRaiseReactiveVariableWithEventViewModelController<TType> : RaiseReactiveVariableWithEventViewModelController<TType>
     {
         private readonly TType _valueToSet;
 
-        public ConstRaiseReactiveVariableWithEvenViewModelController(IEventViewModel eventViewModel, IReactiveVariable<TType> outputReactiveVariable, TType valueToSet) 
+        public ConstRaiseReactiveVariableWithEventViewModelController(IEventViewModel eventViewModel, IReactiveVariable<TType> outputReactiveVariable, TType valueToSet) 
         : base(eventViewModel, outputReactiveVariable)
         {
             _valueToSet = valueToSet;
