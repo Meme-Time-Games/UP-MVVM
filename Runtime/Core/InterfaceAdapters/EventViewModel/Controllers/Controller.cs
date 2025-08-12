@@ -13,7 +13,7 @@
 
         public abstract void Execute();
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             _eventViewModel.OnEventRaised -= Execute;
         }
