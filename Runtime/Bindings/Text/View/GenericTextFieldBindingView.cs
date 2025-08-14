@@ -2,11 +2,11 @@ using TMPro;
 using UnityEngine;
 
 namespace MVVM.Bindings
-{
-    public abstract class GenericTextBindingView<T> : GenericBindingView<T>
+{ 
+    public abstract class GenericTextFieldBindingView<T> : GenericBindingView<T>
     {
         [Header("Text")]
-        [SerializeField] protected TMP_Text _text;
+        [SerializeField] protected TMP_InputField _text;
 
         protected override void UpdateText()
         {
