@@ -9,10 +9,10 @@ namespace MVVM.Bindings
     public class PlayAnimationWithTriggerControllerInstaller : ControllerInstaller
     {
         [Header("References")]
-        private Animator _animator;
+        [SerializeField] private Animator _animator;
 
         [Header("Config")]
-        private string _triggerName;
+        [SerializeField] private string _triggerName;
         
         protected override void InstallServiceInContainer(IDIContainer diContainer, IController serviceInstance)
         {
