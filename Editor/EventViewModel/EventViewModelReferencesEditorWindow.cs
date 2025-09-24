@@ -44,7 +44,7 @@ namespace MVVM.CoreEditor
         {
             List<Component> allReferencedObjects = new List<Component>();
             List<GameObject> allGameObjects = new List<GameObject>();
-            allGameObjects.AddRange(FindObjectsOfType<GameObject>());
+            allGameObjects.AddRange(FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID));
 
             foreach (var gameObject in allGameObjects)
             {
