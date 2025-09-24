@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using MVVM.Core;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MVVM.CoreEditor
 {
@@ -44,7 +46,7 @@ namespace MVVM.CoreEditor
         {
             List<Component> allReferencedObjects = new List<Component>();
             List<GameObject> allGameObjects = new List<GameObject>();
-            allGameObjects.AddRange(FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID));
+            allGameObjects.AddRange(GetAllGameObjects());
 
             foreach (var gameObject in allGameObjects)
             {
@@ -67,6 +69,42 @@ namespace MVVM.CoreEditor
             }
             
             return allReferencedObjects;
+        }
+        
+        public List<GameObject> GetAllGameObjects()
+        {
+            List<GameObject> allGameObjects = new List<GameObject>();
+
+            // Iterate through all loaded scenes
+            for (int i = 0; i < EditorSceneManager.sceneCount; i++)
+            {
+                Scene scene = EditorSceneManager.GetSceneAt(i);
+                if (scene.isLoaded)
+                {
+                    // Get all root GameObjects in the current scene
+                    GameObject[] rootGameObjects = scene.GetRootGameObjects();
+
+                    foreach (GameObject rootGameObject in rootGameObjects)
+                    {
+                        // Add the root GameObject itself
+                        allGameObjects.Add(rootGameObject);
+
+                        // Add all children of the root GameObject
+                        AddChildrenRecursively(rootGameObject.transform, allGameObjects);
+                    }
+                }
+            }
+            return allGameObjects;
+        }
+
+        // Recursive helper function to add all children GameObjects
+        private void AddChildrenRecursively(Transform parent, List<GameObject> list)
+        {
+            foreach (Transform child in parent)
+            {
+                list.Add(child.gameObject);
+                AddChildrenRecursively(child, list); // Recurse for nested children
+            }
         }
         
         private List<Object> GetAllReferencesInProject(EventViewModelSO eventViewModelSo)
