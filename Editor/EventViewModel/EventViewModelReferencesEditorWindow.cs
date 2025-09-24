@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MVVM.Core;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 namespace MVVM.CoreEditor
 {
@@ -54,17 +56,25 @@ namespace MVVM.CoreEditor
 
                 foreach (var component in components)
                 {
-                    SerializedObject serializedObject = new SerializedObject(component);
-                    SerializedProperty serializedProperty = serializedObject.GetIterator();
-
-                    while (serializedProperty.NextVisible(true))
+                    try
                     {
-                        if (serializedProperty.propertyType != SerializedPropertyType.ObjectReference ||
-                            serializedProperty.objectReferenceValue != eventViewModelSo)
-                            continue;
+                        SerializedObject serializedObject = new SerializedObject(component);
+                        SerializedProperty serializedProperty = serializedObject.GetIterator();
 
-                        allReferencedObjects.Add(component);
+                        while (serializedProperty.NextVisible(true))
+                        {
+                            if (serializedProperty.propertyType != SerializedPropertyType.ObjectReference ||
+                                serializedProperty.objectReferenceValue != eventViewModelSo)
+                                continue;
+
+                            allReferencedObjects.Add(component);
+                        }
                     }
+                    catch (Exception e)
+                    {
+                        continue;
+                    }
+                    
                 }
             }
             
