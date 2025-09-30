@@ -2,8 +2,10 @@
 
 namespace MVVM.Core
 {
-    public class BaseReactiveVariableSO : ScriptableObject
+    public abstract class BaseReactiveVariableSO : ScriptableObject
     {
-        
+#if UNITY_EDITOR
+        public abstract void Raise();
+#endif
     }
 }

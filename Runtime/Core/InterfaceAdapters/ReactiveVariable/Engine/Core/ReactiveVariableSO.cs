@@ -63,6 +63,12 @@ namespace MVVM.Core
             
             _reactiveVariable = null;
         }
+
+        public override void Raise()
+        {
+            IReactiveVariable<TValue> reactiveVariable = GetReactiveVariable();
+            reactiveVariable.SetValueAndNotify(_value);
+        }
 #endif
     }
 }
