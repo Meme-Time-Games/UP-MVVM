@@ -2,7 +2,7 @@
 
 namespace MVVM.Core
 {
-    [CreateAssetMenu(fileName = "StringReactiveVariableSO", menuName = "ScriptableObjects/ReactiveVariable/String")]
+    [CreateAssetMenu(fileName = "StringReactiveVariableSO", menuName = "ScriptableObjects/ReactiveVariable/Primitives/String")]
     public class StringReactiveVariableSO : ReactiveVariableSO<string>
     {
         
