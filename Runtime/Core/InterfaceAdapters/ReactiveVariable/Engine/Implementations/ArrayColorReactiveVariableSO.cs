@@ -2,7 +2,7 @@
 
 namespace MVVM.Core
 {
-    [CreateAssetMenu(fileName = "ArrayColorReactiveVariableSO", menuName = "ScriptableObjects/ReactiveVariable/Array-Color")]
+    [CreateAssetMenu(fileName = "ArrayColorReactiveVariableSO", menuName = "ScriptableObjects/MVVM/ReactiveVariables/Array-Color")]
     public class ArrayColorReactiveVariableSO : ReactiveVariableSO<Color[]>
     {
         

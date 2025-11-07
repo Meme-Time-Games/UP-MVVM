@@ -5,7 +5,7 @@ using UnityEditor;
 
 namespace MVVM.Core
 {
-    [CreateAssetMenu(fileName = "EventViewModelSO", menuName = "ScriptableObjects/EventViewModelSO")]
+    [CreateAssetMenu(fileName = "EventViewModelSO", menuName = "ScriptableObjects/MVVM/EventViewModelSO")]
     public class EventViewModelSO : ScriptableObject
     {
         private IEventViewModel _eventViewModel = null;
