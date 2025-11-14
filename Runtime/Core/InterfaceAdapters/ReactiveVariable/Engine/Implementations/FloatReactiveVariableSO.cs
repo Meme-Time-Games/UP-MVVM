@@ -2,7 +2,7 @@
 
 namespace MVVM.Core
 {
-    [CreateAssetMenu(fileName = "FloatReactiveVariableSO", menuName = "ScriptableObjects/MVVM/ReactiveVariables//Float")]
+    [CreateAssetMenu(fileName = "FloatReactiveVariableSO", menuName = "ScriptableObjects/MVVM/ReactiveVariables/Float")]
     public class FloatReactiveVariableSO : ReactiveVariableSO<float>
     {
         
