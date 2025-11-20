@@ -2,7 +2,7 @@
 
 namespace MVVM.Core.InterfaceAdapters
 {
-    public class Vector3RaiseEventViewModelReactiveVariableControllerInstaller : RaiseEventViewModelReactiveVariableControllerInstaller<Transform>
+    public class Vector3RaiseEventViewModelReactiveVariableControllerInstaller : RaiseEventViewModelReactiveVariableControllerInstaller<Vector3>
     {
 
     }
