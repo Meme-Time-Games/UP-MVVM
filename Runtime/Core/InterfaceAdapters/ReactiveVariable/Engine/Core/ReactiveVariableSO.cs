@@ -69,6 +69,15 @@ namespace MVVM.Core
             IReactiveVariable<TValue> reactiveVariable = GetReactiveVariable();
             reactiveVariable.SetValueAndNotify(_value);
         }
+        
+        public void SetDefaultValue(TValue value)
+        {
+            _defaultValue = value;
+            _value = value;
+            
+            GetReactiveVariable().SetValue(value);
+        }
 #endif
+        
     }
 }
