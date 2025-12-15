@@ -18,7 +18,7 @@ namespace MVVM.Core.InterfaceAdapters
         public void Execute()
         {
             _currentValue = !_currentValue;
-            _boolReactiveVariable.SetValue(_currentValue);
+            _boolReactiveVariable.SetValueAndNotify(_currentValue);
         }
     }
 }
