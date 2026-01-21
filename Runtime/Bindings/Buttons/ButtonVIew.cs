@@ -1,4 +1,5 @@
-﻿using MVVM.Core;
+﻿using System.Collections;
+using MVVM.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,15 +13,19 @@ namespace View
 
         [Header("Config")] 
         [SerializeField] private bool _isOneTimePressed;
+        [SerializeField] private float _timeBetweenPress = 0.5f;
 
         [Header("Debug")] 
         [SerializeField] private bool _wasPressed;
+        [SerializeField] private bool _canBePressed = true;
 
         private IEventViewModel _eventViewModel;
+        private WaitForSeconds _timeBetweenPressWaitForSeconds;
 
         private void Awake()
         {
             _eventViewModel = _eventViewModelSo.GetEventViewModel();
+            _timeBetweenPressWaitForSeconds = new WaitForSeconds(_timeBetweenPress);
             
             Subscribe(_button);
         }
@@ -29,12 +34,24 @@ namespace View
 
         protected void Raise()
         {
+            if (!_canBePressed) 
+                return;
+            
             if (_isOneTimePressed && _wasPressed)
                 return;
             
             _wasPressed = true;
+            _canBePressed = false;
             
             _eventViewModel.RaiseEvent();
+
+            StartCoroutine(ResetCanBePressed());
+        }
+
+        private IEnumerator ResetCanBePressed()
+        {
+            yield return _timeBetweenPressWaitForSeconds;
+            _canBePressed = false;
         }
 
         private void OnDestroy()
