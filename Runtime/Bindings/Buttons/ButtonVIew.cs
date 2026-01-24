@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using MVVM.Core;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,13 +46,19 @@ namespace View
             
             _eventViewModel.RaiseEvent();
 
-            StartCoroutine(ResetCanBePressed());
+            if(gameObject.activeInHierarchy)
+                StartCoroutine(ResetCanBePressed());
         }
 
         private IEnumerator ResetCanBePressed()
         {
             yield return _timeBetweenPressWaitForSeconds;
-            _canBePressed = false;
+            _canBePressed = true;
+        }
+
+        private void OnDisable()
+        {
+            _canBePressed = true;
         }
 
         private void OnDestroy()
