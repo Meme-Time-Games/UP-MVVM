@@ -9,6 +9,7 @@ namespace MVVM
         [Header("References")] 
         [SerializeField] private EventViewModelSO _eventViewModelSo; 
         [SerializeField] private BaseMonoInjector _monoInjector;
+        [SerializeField] private bool _ignoreIfAlreadyInstalled;
         
         private IEventViewModel _eventViewModel;
         
@@ -21,6 +22,11 @@ namespace MVVM
         private void Inject()
         {
             _monoInjector.InjectAll();
+            
+            if (_ignoreIfAlreadyInstalled)
+            {
+                _eventViewModel.OnEventRaised -= Inject;
+            }
         }
 
         private void OnDestroy()
