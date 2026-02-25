@@ -6,7 +6,7 @@ namespace MVVM.Core.InterfaceAdapters
 {
     public class CommandControllerInstaller : ControllerInstaller
     {
-        [Inject] private ICommand _command;
+        [Inject] protected ICommand _command;
         
         protected override void InstallServiceInContainer(IDIContainer diContainer, IController serviceInstance)
         {
