@@ -1,6 +1,6 @@
 using MVVM.Core.Installers;
 
-namespace MVVM.Core.InterfaceAdapters
+namespace MVVM.Core
 {
     public class StringExecuteCommandUsingReactiveVariableControllerInstaller : ExecuteCommandUsingReactiveVariableControllerInstaller<string>
     {

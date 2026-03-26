@@ -4,7 +4,7 @@ namespace MVVM.Core.Bindings.Implementations
 {
     public abstract class RaiseReactiveVariableWithEventViewModelController<TType> : Controller
     {
-        private readonly IReactiveVariable<TType> _outputReactiveVariable;
+        protected readonly IReactiveVariable<TType> _outputReactiveVariable;
 
         protected RaiseReactiveVariableWithEventViewModelController(IEventViewModel eventViewModel, IReactiveVariable<TType> outputReactiveVariable) : base(eventViewModel)
         {
