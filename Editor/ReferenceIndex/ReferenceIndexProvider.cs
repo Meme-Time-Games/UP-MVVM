@@ -57,17 +57,18 @@ namespace MVVM.CoreEditor
 
             try
             {
-                referenceIndexBuilder.BuildAsync(OnBuildFinished);
+                referenceIndexBuilder.BuildAsync(FinishBuild);
             }
             catch (Exception exception)
             {
                 _isBuilding = false;
+                _pendingCallbacks.Clear();
                 Debug.LogException(exception);
                 throw;
             }
         }
 
-        private static void OnBuildFinished(ReferenceIndex builtIndex)
+        private static void FinishBuild(ReferenceIndex builtIndex)
         {
             _isBuilding = false;
             _referenceIndex = builtIndex;
