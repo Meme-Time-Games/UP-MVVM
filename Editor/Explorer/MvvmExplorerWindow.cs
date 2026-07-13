@@ -10,6 +10,8 @@ namespace MVVM.CoreEditor
         private readonly MvvmAssetRepository _mvvmAssetRepository = new MvvmAssetRepository();
 
         private AssetListPanel _assetListPanel;
+        private ReferencesPanel _referencesPanel;
+        private ReferenceIndex _referenceIndex;
         private string _pendingSelectionGuid;
 
         [MenuItem("Tools/MVVM/Explorer")]
@@ -41,11 +43,22 @@ namespace MVVM.CoreEditor
             toolbar.Add(rebuildButton);
 
             _assetListPanel = new AssetListPanel();
+            _referencesPanel = new ReferencesPanel();
+            _assetListPanel.OnAssetSelected = ShowAssetDetail;
+
+            TwoPaneSplitView splitView = new TwoPaneSplitView(0, 280, TwoPaneSplitViewOrientation.Horizontal);
+            splitView.Add(_assetListPanel.Root);
+            splitView.Add(_referencesPanel.Root);
 
             rootVisualElement.Add(toolbar);
-            rootVisualElement.Add(_assetListPanel.Root);
+            rootVisualElement.Add(splitView);
 
             LoadAssets();
+        }
+
+        private void ShowAssetDetail(MvvmAsset asset)
+        {
+            _referencesPanel.ShowAsset(asset, _referenceIndex);
         }
 
         private void RebuildIndex()
@@ -63,6 +76,7 @@ namespace MVVM.CoreEditor
             if (this == null)
                 return;
 
+            _referenceIndex = referenceIndex;
             _assetListPanel.SetAssets(_mvvmAssetRepository.GetAllAssets(), referenceIndex);
 
             if (string.IsNullOrEmpty(_pendingSelectionGuid))
