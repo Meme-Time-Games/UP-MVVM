@@ -100,10 +100,15 @@ that the index yields for free:
 
 - **Unused** — nothing references the asset. Surfaced as "No references found", never as "safe to delete"; an SO loaded
   from code rather than wired in the inspector would be a false positive.
-- **Possible duplicates** — near-identical names (`PlayerDied` / `OnPlayerDied` / `PlayerDeath`). The heuristic is
-  deterministic and therefore testable: normalize each name (lowercase, strip a leading `On`, strip non-alphanumeric
-  characters), then group names whose normalized forms are within a Levenshtein distance of 2. That groups all three of
-  the examples above.
+- **Possible duplicates** — lexically near-identical names. The heuristic is deterministic and therefore testable:
+  normalize each name (lowercase, strip a leading `On`, strip non-alphanumeric characters), then group names whose
+  normalized forms are within a Levenshtein distance of 2.
+
+  This catches prefix and typo/plural duplicates — `PlayerDied` / `OnPlayerDied` / `PlayersDied` all normalize to within
+  distance 1 of each other. It **does not** catch synonym duplicates: `PlayerDied` → `playerdied` and `PlayerDeath` →
+  `playerdeath` are distance **4** apart, and lowering the bar far enough to group them would sweep in unrelated names.
+  Synonym detection is semantic, not lexical, and is out of scope. A unit test pins this limitation so nobody later
+  "fixes" the threshold and floods the filter with false positives.
 
 Each row shows name, containing folder, and a **reference count**.
 
@@ -179,5 +184,10 @@ Naming `MethodName_WhatConditions_DoesWhat()`, AAA, one assert per test.
 Namespace `MVVM.CoreEditor`, in the existing `Editor.MVVM.Core` asmdef. Package code standards apply: one type per file,
 no abbreviations, no `var` outside `foreach`, no `else`, no ternaries, no bool parameters, no public fields, guard
 clauses, and classes named for the pattern they implement (`Repository`, `Builder`, `Factory`, `Recorder`, `Index`).
+
+**Unity floor.** `package.json` currently declares `"unity": "2020.3"`, which is incompatible with this design: the
+2020.3 list API is `ListView.itemHeight`, which no longer exists in Unity 6, so no single `ListView` codebase compiles
+against both. The floor is vestigial — this workbench runs 6000.2 and the game runs 6000.5. It is therefore raised to
+`"unity": "6000.0"` (and the now-meaningless `unityRelease` removed) as part of this work.
 
 Version: minor bump in `package.json` (new feature, no breaking change).
