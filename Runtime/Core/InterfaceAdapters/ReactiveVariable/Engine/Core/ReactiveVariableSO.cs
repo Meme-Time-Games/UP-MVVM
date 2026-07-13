@@ -56,7 +56,7 @@ namespace MVVM.Core
                 return;
             
             _isSubscribedToPlayModeChanged = false;
-            EditorApplication.playModeStateChanged += ChangePlayMode;
+            EditorApplication.playModeStateChanged -= ChangePlayMode;
             
             if(null != _reactiveVariable)
                 _reactiveVariable.OnValueChangedEditorOnly -= UpdateValue;
