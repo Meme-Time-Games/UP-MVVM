@@ -1,4 +1,6 @@
+using System;
 using UnityEditor;
+using UnityEngine;
 
 namespace MVVM.CoreEditor
 {
@@ -23,10 +25,25 @@ namespace MVVM.CoreEditor
                 referenceIndex.RemoveReferencingPath(movedFromAssetPath);
 
             foreach (string importedAsset in importedAssets)
-                referenceIndexBuilder.SetIndexForPath(importedAsset, referenceIndex);
+                SetIndexForPathSafely(referenceIndexBuilder, importedAsset, referenceIndex);
 
             foreach (string movedAsset in movedAssets)
-                referenceIndexBuilder.SetIndexForPath(movedAsset, referenceIndex);
+                SetIndexForPathSafely(referenceIndexBuilder, movedAsset, referenceIndex);
+        }
+
+        private static void SetIndexForPathSafely(
+            ReferenceIndexBuilder referenceIndexBuilder,
+            string assetPath,
+            ReferenceIndex referenceIndex)
+        {
+            try
+            {
+                referenceIndexBuilder.SetIndexForPath(assetPath, referenceIndex);
+            }
+            catch (Exception exception)
+            {
+                Debug.LogException(exception);
+            }
         }
     }
 }
