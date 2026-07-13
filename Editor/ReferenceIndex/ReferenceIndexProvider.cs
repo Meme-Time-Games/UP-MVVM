@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace MVVM.CoreEditor
 {
     public static class ReferenceIndexProvider
     {
         private static readonly ReferenceIndexCache _cache = new ReferenceIndexCache();
+        private static readonly List<Action<ReferenceIndex>> _pendingCallbacks = new List<Action<ReferenceIndex>>();
 
         private static ReferenceIndex _referenceIndex;
         private static bool _isBuilding;
@@ -43,6 +46,8 @@ namespace MVVM.CoreEditor
 
         public static void Rebuild(Action<ReferenceIndex> onReady)
         {
+            _pendingCallbacks.Add(onReady);
+
             if (_isBuilding)
                 return;
 
@@ -50,12 +55,40 @@ namespace MVVM.CoreEditor
 
             ReferenceIndexBuilder referenceIndexBuilder = new ReferenceIndexBuilder();
 
-            referenceIndexBuilder.BuildAsync(builtIndex =>
+            try
+            {
+                referenceIndexBuilder.BuildAsync(OnBuildFinished);
+            }
+            catch (Exception exception)
             {
                 _isBuilding = false;
-                _referenceIndex = builtIndex;
-                onReady(builtIndex);
-            });
+                Debug.LogException(exception);
+                throw;
+            }
+        }
+
+        private static void OnBuildFinished(ReferenceIndex builtIndex)
+        {
+            _isBuilding = false;
+            _referenceIndex = builtIndex;
+
+            List<Action<ReferenceIndex>> callbacksToInvoke = new List<Action<ReferenceIndex>>(_pendingCallbacks);
+            _pendingCallbacks.Clear();
+
+            foreach (Action<ReferenceIndex> pendingCallback in callbacksToInvoke)
+                InvokeSafely(pendingCallback, builtIndex);
+        }
+
+        private static void InvokeSafely(Action<ReferenceIndex> callback, ReferenceIndex builtIndex)
+        {
+            try
+            {
+                callback(builtIndex);
+            }
+            catch (Exception exception)
+            {
+                Debug.LogException(exception);
+            }
         }
     }
 }
