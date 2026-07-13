@@ -76,8 +76,17 @@ namespace MVVM.CoreEditor
         {
             int lastPathIndex = Math.Min(_nextPathIndex + AssetsPerTick, _pendingPaths.Count);
 
-            for (int pathIndex = _nextPathIndex; pathIndex < lastPathIndex; pathIndex++)
-                IndexPath(_pendingPaths[pathIndex]);
+            try
+            {
+                for (int pathIndex = _nextPathIndex; pathIndex < lastPathIndex; pathIndex++)
+                    IndexPath(_pendingPaths[pathIndex]);
+            }
+            catch (Exception exception)
+            {
+                Debug.LogException(exception);
+                StopBuild();
+                return;
+            }
 
             _nextPathIndex = lastPathIndex;
 
