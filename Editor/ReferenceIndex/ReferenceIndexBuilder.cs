@@ -85,6 +85,7 @@ namespace MVVM.CoreEditor
             {
                 Debug.LogException(exception);
                 StopBuild();
+                _onBuilt?.Invoke(_referenceIndex);
                 return;
             }
 
