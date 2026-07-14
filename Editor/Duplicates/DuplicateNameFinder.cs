@@ -43,7 +43,7 @@ namespace MVVM.CoreEditor
 
             foreach (string otherName in names)
             {
-                if (GetDistance(normalizedName, Normalize(otherName)) > MaximumDistance)
+                if (GetDistance(normalizedName, Normalize(otherName)) >= MaximumDistance)
                     continue;
 
                 similarNames.Add(otherName);
@@ -62,7 +62,7 @@ namespace MVVM.CoreEditor
                 if (groupedIndexes.Contains(otherIndex))
                     continue;
 
-                if (GetDistance(currentName, Normalize(names[otherIndex])) > MaximumDistance)
+                if (GetDistance(currentName, Normalize(names[otherIndex])) >= MaximumDistance)
                     continue;
 
                 group.Add(names[otherIndex]);
@@ -77,9 +77,11 @@ namespace MVVM.CoreEditor
 
         private string Normalize(string name)
         {
+            string nameWithoutEventPrefix = RemoveOnEventPrefix(name);
+
             StringBuilder normalized = new StringBuilder();
 
-            foreach (char character in name.ToLowerInvariant())
+            foreach (char character in nameWithoutEventPrefix.ToLowerInvariant())
             {
                 if (!char.IsLetterOrDigit(character))
                     continue;
@@ -87,15 +89,26 @@ namespace MVVM.CoreEditor
                 normalized.Append(character);
             }
 
-            return RemoveIgnoredPrefix(normalized.ToString());
+            return normalized.ToString();
         }
 
-        private string RemoveIgnoredPrefix(string name)
+        private string RemoveOnEventPrefix(string name)
         {
-            if (!name.StartsWith(IgnoredPrefix, StringComparison.Ordinal))
+            if (!HasOnEventPrefix(name))
                 return name;
 
             return name.Substring(IgnoredPrefix.Length);
+        }
+
+        private bool HasOnEventPrefix(string name)
+        {
+            if (name.Length <= IgnoredPrefix.Length)
+                return false;
+
+            if (!name.StartsWith(IgnoredPrefix, StringComparison.OrdinalIgnoreCase))
+                return false;
+
+            return char.IsUpper(name[IgnoredPrefix.Length]);
         }
 
         private int GetDistance(string firstName, string secondName)

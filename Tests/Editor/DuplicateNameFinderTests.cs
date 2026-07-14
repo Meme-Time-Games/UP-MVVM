@@ -72,6 +72,28 @@ namespace MVVM.CoreEditor.Tests
         }
 
         [Test]
+        public void GetDuplicateGroups_WhenOnPrefixIsPartOfAWordNotAnEvent_DoesNotGroupThem()
+        {
+            DuplicateNameFinder duplicateNameFinder = new DuplicateNameFinder();
+            List<string> names = new List<string> { "OnboardingFinished", "BoardingFinished" };
+
+            IReadOnlyList<IReadOnlyList<string>> duplicateGroups = duplicateNameFinder.GetDuplicateGroups(names);
+
+            Assert.IsEmpty(duplicateGroups);
+        }
+
+        [Test]
+        public void GetDuplicateGroups_WhenOnPrefixIsAGenuineEventPrefix_StillGroupsThem()
+        {
+            DuplicateNameFinder duplicateNameFinder = new DuplicateNameFinder();
+            List<string> names = new List<string> { "PlayerDied", "OnPlayerDied" };
+
+            IReadOnlyList<IReadOnlyList<string>> duplicateGroups = duplicateNameFinder.GetDuplicateGroups(names);
+
+            Assert.AreEqual(1, duplicateGroups.Count);
+        }
+
+        [Test]
         public void GetSimilarNamesWithName_WhenNameMatchesExactly_ReturnsIt()
         {
             DuplicateNameFinder duplicateNameFinder = new DuplicateNameFinder();
@@ -124,6 +146,28 @@ namespace MVVM.CoreEditor.Tests
             IReadOnlyList<string> similarNames = duplicateNameFinder.GetSimilarNamesWithName("PlayerDied", names);
 
             Assert.IsEmpty(similarNames);
+        }
+
+        [Test]
+        public void GetSimilarNamesWithName_WhenOnPrefixIsPartOfAWordNotAnEvent_DoesNotReturnIt()
+        {
+            DuplicateNameFinder duplicateNameFinder = new DuplicateNameFinder();
+            List<string> names = new List<string> { "OnboardingFinished" };
+
+            IReadOnlyList<string> similarNames = duplicateNameFinder.GetSimilarNamesWithName("BoardingFinished", names);
+
+            Assert.IsEmpty(similarNames);
+        }
+
+        [Test]
+        public void GetSimilarNamesWithName_WhenOnPrefixIsAGenuineEventPrefix_StillReturnsIt()
+        {
+            DuplicateNameFinder duplicateNameFinder = new DuplicateNameFinder();
+            List<string> names = new List<string> { "OnPlayerDied" };
+
+            IReadOnlyList<string> similarNames = duplicateNameFinder.GetSimilarNamesWithName("PlayerDied", names);
+
+            CollectionAssert.Contains(similarNames, "OnPlayerDied");
         }
 
         [Test]
