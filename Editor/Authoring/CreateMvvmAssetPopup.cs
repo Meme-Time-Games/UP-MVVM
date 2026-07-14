@@ -89,18 +89,18 @@ namespace MVVM.CoreEditor
             _reactiveVariableToggle = new ToolbarToggle();
             _reactiveVariableToggle.text = "Reactive Variable";
             _reactiveVariableToggle.SetValueWithoutNotify(true);
-            _reactiveVariableToggle.RegisterValueChangedCallback(OnReactiveVariableToggleChanged);
+            _reactiveVariableToggle.RegisterValueChangedCallback(SwitchToReactiveVariableKind);
             kindRow.Add(_reactiveVariableToggle);
 
             _eventToggle = new ToolbarToggle();
             _eventToggle.text = "Event";
-            _eventToggle.RegisterValueChangedCallback(OnEventToggleChanged);
+            _eventToggle.RegisterValueChangedCallback(SwitchToEventKind);
             kindRow.Add(_eventToggle);
 
             return kindRow;
         }
 
-        private void OnReactiveVariableToggleChanged(ChangeEvent<bool> changeEvent)
+        private void SwitchToReactiveVariableKind(ChangeEvent<bool> changeEvent)
         {
             if (!changeEvent.newValue)
             {
@@ -114,7 +114,7 @@ namespace MVVM.CoreEditor
             RefreshPreview();
         }
 
-        private void OnEventToggleChanged(ChangeEvent<bool> changeEvent)
+        private void SwitchToEventKind(ChangeEvent<bool> changeEvent)
         {
             if (!changeEvent.newValue)
             {

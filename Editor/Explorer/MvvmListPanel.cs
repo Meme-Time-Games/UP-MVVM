@@ -294,17 +294,17 @@ namespace MVVM.CoreEditor
             groupHeader.userData = listRow.GroupName;
             groupHeader.text = GetFoldoutArrow(listRow.GroupName) + "  " + listRow.GroupName;
             groupHeader.tooltip = "Click to collapse or expand";
-            groupHeader.RemoveFromClassList("is-hidden");
+            groupHeader.style.display = DisplayStyle.Flex;
 
-            row.Q("asset-content").AddToClassList("is-hidden");
+            row.Q("asset-content").style.display = DisplayStyle.None;
         }
 
         private void BindAssetRow(VisualElement row, MvvmListRow listRow)
         {
-            row.Q<Label>("group-header").AddToClassList("is-hidden");
+            row.Q<Label>("group-header").style.display = DisplayStyle.None;
 
             VisualElement content = row.Q("asset-content");
-            content.RemoveFromClassList("is-hidden");
+            content.style.display = DisplayStyle.Flex;
 
             MvvmAsset asset = listRow.Asset;
 
