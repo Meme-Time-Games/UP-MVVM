@@ -74,9 +74,36 @@ namespace MVVM.CoreEditor
         {
             int rowIndex = _visibleRows.FindIndex(row => IsRowForGuid(row, guid));
 
+            if (rowIndex >= 0)
+            {
+                SelectRowAtIndex(rowIndex);
+                return;
+            }
+
+            ExpandGroupWithGuidAndSelect(guid);
+        }
+
+        private void ExpandGroupWithGuidAndSelect(string guid)
+        {
+            MvvmAsset asset = _allAssets.FirstOrDefault(candidate => candidate.Guid == guid);
+
+            if (ReferenceEquals(asset, null))
+                return;
+
+            string groupName = GetGroupNameWithAsset(asset);
+            _collapsedGroups.Remove(groupName);
+            RebuildRows();
+
+            int rowIndex = _visibleRows.FindIndex(row => IsRowForGuid(row, guid));
+
             if (rowIndex < 0)
                 return;
 
+            SelectRowAtIndex(rowIndex);
+        }
+
+        private void SelectRowAtIndex(int rowIndex)
+        {
             _listView.SetSelection(rowIndex);
             _listView.ScrollToItem(rowIndex);
         }
