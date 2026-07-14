@@ -41,6 +41,10 @@ namespace MVVM.CoreEditor
 
             Toolbar toolbar = new Toolbar();
 
+            ToolbarButton createButton = new ToolbarButton(ShowCreatePopup);
+            createButton.text = "+ Create";
+            toolbar.Add(createButton);
+
             ToolbarButton rebuildButton = new ToolbarButton(RebuildIndex);
             rebuildButton.text = "Rebuild Index";
             toolbar.Add(rebuildButton);
@@ -63,6 +67,11 @@ namespace MVVM.CoreEditor
             rootVisualElement.Add(splitView);
 
             LoadAssets();
+        }
+
+        private void ShowCreatePopup()
+        {
+            CreateMvvmAssetPopup.ShowPopup(LoadAssets);
         }
 
         private void OnDisable()
