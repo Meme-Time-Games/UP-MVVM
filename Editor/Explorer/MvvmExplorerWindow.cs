@@ -12,7 +12,7 @@ namespace MVVM.CoreEditor
 
         private readonly MvvmAssetRepository _mvvmAssetRepository = new MvvmAssetRepository();
 
-        private AssetListPanel _assetListPanel;
+        private MvvmListPanel _assetListPanel;
         private ReferencesPanel _referencesPanel;
         private RuntimePanel _runtimePanel;
         private ReferenceIndex _referenceIndex;
@@ -54,7 +54,7 @@ namespace MVVM.CoreEditor
             rebuildButton.text = "Rebuild Index";
             toolbar.Add(rebuildButton);
 
-            _assetListPanel = new AssetListPanel();
+            _assetListPanel = new MvvmListPanel();
             _referencesPanel = new ReferencesPanel();
             _runtimePanel = new RuntimePanel();
             _assetListPanel.OnAssetSelected = ShowAssetDetail;
