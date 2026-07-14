@@ -70,5 +70,71 @@ namespace MVVM.CoreEditor.Tests
 
             Assert.AreEqual(3, duplicateGroups[0].Count);
         }
+
+        [Test]
+        public void GetSimilarNamesWithName_WhenNameMatchesExactly_ReturnsIt()
+        {
+            DuplicateNameFinder duplicateNameFinder = new DuplicateNameFinder();
+            List<string> names = new List<string> { "PlayerDied" };
+
+            IReadOnlyList<string> similarNames = duplicateNameFinder.GetSimilarNamesWithName("PlayerDied", names);
+
+            CollectionAssert.Contains(similarNames, "PlayerDied");
+        }
+
+        [Test]
+        public void GetSimilarNamesWithName_WhenNameDiffersByOnPrefix_ReturnsIt()
+        {
+            DuplicateNameFinder duplicateNameFinder = new DuplicateNameFinder();
+            List<string> names = new List<string> { "OnPlayerDied" };
+
+            IReadOnlyList<string> similarNames = duplicateNameFinder.GetSimilarNamesWithName("PlayerDied", names);
+
+            CollectionAssert.Contains(similarNames, "OnPlayerDied");
+        }
+
+        [Test]
+        public void GetSimilarNamesWithName_WhenNameDiffersByOneCharacter_ReturnsIt()
+        {
+            DuplicateNameFinder duplicateNameFinder = new DuplicateNameFinder();
+            List<string> names = new List<string> { "PlayersDied" };
+
+            IReadOnlyList<string> similarNames = duplicateNameFinder.GetSimilarNamesWithName("PlayerDied", names);
+
+            CollectionAssert.Contains(similarNames, "PlayersDied");
+        }
+
+        [Test]
+        public void GetSimilarNamesWithName_WhenNameIsUnrelated_DoesNotReturnIt()
+        {
+            DuplicateNameFinder duplicateNameFinder = new DuplicateNameFinder();
+            List<string> names = new List<string> { "EnemySpawned" };
+
+            IReadOnlyList<string> similarNames = duplicateNameFinder.GetSimilarNamesWithName("PlayerDied", names);
+
+            Assert.IsEmpty(similarNames);
+        }
+
+        [Test]
+        public void GetSimilarNamesWithName_WhenNameIsASynonym_DoesNotReturnIt()
+        {
+            DuplicateNameFinder duplicateNameFinder = new DuplicateNameFinder();
+            List<string> names = new List<string> { "PlayerDeath" };
+
+            IReadOnlyList<string> similarNames = duplicateNameFinder.GetSimilarNamesWithName("PlayerDied", names);
+
+            Assert.IsEmpty(similarNames);
+        }
+
+        [Test]
+        public void GetSimilarNamesWithName_WhenNamesListIsEmpty_ReturnsEmpty()
+        {
+            DuplicateNameFinder duplicateNameFinder = new DuplicateNameFinder();
+            List<string> names = new List<string>();
+
+            IReadOnlyList<string> similarNames = duplicateNameFinder.GetSimilarNamesWithName("PlayerDied", names);
+
+            Assert.IsEmpty(similarNames);
+        }
     }
 }

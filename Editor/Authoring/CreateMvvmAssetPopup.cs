@@ -73,20 +73,13 @@ namespace MVVM.CoreEditor
             if (string.IsNullOrEmpty(_nameField.value))
                 return string.Empty;
 
-            List<string> names = new List<string>(_existingAssetNames) { _nameField.value };
+            IReadOnlyList<string> similarNames =
+                _duplicateNameFinder.GetSimilarNamesWithName(_nameField.value, _existingAssetNames);
 
-            foreach (IReadOnlyList<string> duplicateGroup in _duplicateNameFinder.GetDuplicateGroups(names))
-            {
-                if (!duplicateGroup.Contains(_nameField.value))
-                    continue;
+            if (similarNames.Count == 0)
+                return string.Empty;
 
-                List<string> existingNames = new List<string>(duplicateGroup);
-                existingNames.Remove(_nameField.value);
-
-                return $"Similar asset already exists: {string.Join(", ", existingNames)}";
-            }
-
-            return string.Empty;
+            return $"Similar asset already exists: {string.Join(", ", similarNames)}";
         }
 
         private void CreateAsset()

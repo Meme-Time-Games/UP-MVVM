@@ -33,6 +33,25 @@ namespace MVVM.CoreEditor
             return duplicateGroups;
         }
 
+        public IReadOnlyList<string> GetSimilarNamesWithName(string name, IReadOnlyList<string> names)
+        {
+            if (ReferenceEquals(names, null))
+                throw new ArgumentNullException(nameof(names));
+
+            List<string> similarNames = new List<string>();
+            string normalizedName = Normalize(name);
+
+            foreach (string otherName in names)
+            {
+                if (GetDistance(normalizedName, Normalize(otherName)) > MaximumDistance)
+                    continue;
+
+                similarNames.Add(otherName);
+            }
+
+            return similarNames;
+        }
+
         private List<string> GetGroupForIndex(IReadOnlyList<string> names, int currentIndex, HashSet<int> groupedIndexes)
         {
             List<string> group = new List<string> { names[currentIndex] };
