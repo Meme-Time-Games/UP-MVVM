@@ -165,17 +165,12 @@ namespace MVVM.CoreEditor
 
         private string GetGroupNameWithAsset(MvvmAsset asset)
         {
-            string menuName = GetMenuNameWithAsset(asset);
+            if (asset.IsEvent)
+                return _groupNameProvider.GetGroupNameWithPath(asset.Path);
+
+            string menuName = _createAssetMenuReader.GetMenuNameWithTypeName(asset.TypeName);
 
             return _groupNameProvider.GetGroupNameWithMenuNameAndPath(menuName, asset.Path);
-        }
-
-        private string GetMenuNameWithAsset(MvvmAsset asset)
-        {
-            if (asset.IsEvent)
-                return string.Empty;
-
-            return _createAssetMenuReader.GetMenuNameWithTypeName(asset.TypeName);
         }
 
         private HashSet<string> GetDuplicateNames(IReadOnlyList<MvvmAsset> assets)

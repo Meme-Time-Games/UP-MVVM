@@ -5,14 +5,14 @@ namespace MVVM.CoreEditor.Tests
     public class MvvmGroupNameProviderTests
     {
         [Test]
-        public void GetGroupNameWithMenuNameAndPath_WhenMenuHasFeatureBeforeReactiveVariables_ReturnsTheFeature()
+        public void GetGroupNameWithMenuNameAndPath_WhenMenuSegmentIsMvvm_FallsBackToTheFolder()
         {
             MvvmGroupNameProvider provider = new MvvmGroupNameProvider();
 
             string groupName = provider.GetGroupNameWithMenuNameAndPath(
-                "ScriptableObjects/MVVM/ReactiveVariables/Bool", "Assets/Whatever/A.asset");
+                "ScriptableObjects/MVVM/ReactiveVariables/Bool", "Assets/InteractionSystem2D/Data/IsDragging.asset");
 
-            Assert.AreEqual("MVVM", groupName);
+            Assert.AreEqual("InteractionSystem2D", groupName);
         }
 
         [Test]
@@ -68,6 +68,27 @@ namespace MVVM.CoreEditor.Tests
                 "ScriptableObjects/Minigames/Poker/ReactiveVariables/PokerRoomData", "Assets/A.asset");
 
             Assert.AreEqual("Minigames", groupName);
+        }
+
+        [Test]
+        public void GetGroupNameWithMenuNameAndPath_WhenFolderIsViewModel_ReturnsTheParentFeature()
+        {
+            MvvmGroupNameProvider provider = new MvvmGroupNameProvider();
+
+            string groupName = provider.GetGroupNameWithMenuNameAndPath(
+                string.Empty, "Assets/InteractionSystem2D/Data/ViewModel/IsDragging.asset");
+
+            Assert.AreEqual("InteractionSystem2D", groupName);
+        }
+
+        [Test]
+        public void GetGroupNameWithPath_WhenPathHasAFeatureFolder_ReturnsTheFeature()
+        {
+            MvvmGroupNameProvider provider = new MvvmGroupNameProvider();
+
+            string groupName = provider.GetGroupNameWithPath("Assets/Chat/Events/OnMessageReceived.asset");
+
+            Assert.AreEqual("Chat", groupName);
         }
     }
 }

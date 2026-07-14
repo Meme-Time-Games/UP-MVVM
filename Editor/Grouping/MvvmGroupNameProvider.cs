@@ -8,7 +8,8 @@ namespace MVVM.CoreEditor
         {
             "scriptableobjects",
             "reactivevariable",
-            "reactivevariables"
+            "reactivevariables",
+            "mvvm"
         };
 
         private static readonly string[] GenericFolderNames =
@@ -33,7 +34,10 @@ namespace MVVM.CoreEditor
             "events",
             "reactivevariable",
             "reactivevariables",
-            "variables"
+            "variables",
+            "viewmodel",
+            "viewmodels",
+            "mvvm"
         };
 
         public string GetGroupNameWithMenuNameAndPath(string menuName, string assetPath)
@@ -43,6 +47,11 @@ namespace MVVM.CoreEditor
             if (!string.IsNullOrEmpty(featureFromMenu))
                 return featureFromMenu;
 
+            return GetFeatureFromAssetPath(assetPath);
+        }
+
+        public string GetGroupNameWithPath(string assetPath)
+        {
             return GetFeatureFromAssetPath(assetPath);
         }
 
