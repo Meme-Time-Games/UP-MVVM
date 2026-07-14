@@ -15,6 +15,7 @@ namespace MVVM.CoreEditor
 
         private readonly VisualElement _root = new VisualElement();
         private readonly ListView _listView = new ListView();
+        private readonly Button _toggleAllGroupsButton = new Button();
         private readonly ToolbarSearchField _searchField = new ToolbarSearchField();
         private readonly EnumField _filterField = new EnumField(AssetListFilter.All);
         private readonly DuplicateNameFinder _duplicateNameFinder = new DuplicateNameFinder();
@@ -36,6 +37,9 @@ namespace MVVM.CoreEditor
         {
             _root.AddToClassList("mvvm-list-panel");
 
+            _toggleAllGroupsButton.AddToClassList("mvvm-toggle-all");
+            _toggleAllGroupsButton.clicked += ToggleAllGroups;
+
             _searchField.AddToClassList("mvvm-search");
             _searchField.RegisterValueChangedCallback(searchChange => RebuildRows());
 
@@ -44,6 +48,7 @@ namespace MVVM.CoreEditor
 
             VisualElement searchRow = new VisualElement();
             searchRow.AddToClassList("mvvm-search-row");
+            searchRow.Add(_toggleAllGroupsButton);
             searchRow.Add(_searchField);
             searchRow.Add(_filterField);
 
@@ -142,7 +147,60 @@ namespace MVVM.CoreEditor
             foreach (string groupName in groupNames)
                 AddGroupRows(groupName, groups[groupName]);
 
+            RefreshToggleAllGroupsButtonWithGroupNames(groupNames);
+
             _listView.RefreshItems();
+        }
+
+        private void ToggleAllGroups()
+        {
+            List<string> groupNames = GetGroups().Keys.ToList();
+
+            if (HasAnyExpandedGroupWithGroupNames(groupNames))
+            {
+                CollapseAllGroupsWithGroupNames(groupNames);
+                return;
+            }
+
+            ExpandAllGroups();
+        }
+
+        private void CollapseAllGroupsWithGroupNames(List<string> groupNames)
+        {
+            foreach (string groupName in groupNames)
+                _collapsedGroups.Add(groupName);
+
+            HandleCollapsedGroupsChanged();
+        }
+
+        private void ExpandAllGroups()
+        {
+            _collapsedGroups.Clear();
+            HandleCollapsedGroupsChanged();
+        }
+
+        private void RefreshToggleAllGroupsButtonWithGroupNames(List<string> groupNames)
+        {
+            if (HasAnyExpandedGroupWithGroupNames(groupNames))
+            {
+                _toggleAllGroupsButton.text = "▼";
+                _toggleAllGroupsButton.tooltip = "Collapse all groups";
+                return;
+            }
+
+            _toggleAllGroupsButton.text = "▶";
+            _toggleAllGroupsButton.tooltip = "Expand all groups";
+        }
+
+        private bool HasAnyExpandedGroupWithGroupNames(List<string> groupNames)
+        {
+            foreach (string groupName in groupNames)
+            {
+                if (!_collapsedGroups.Contains(groupName))
+                    return true;
+            }
+
+            return false;
         }
 
         private void AddGroupRows(string groupName, List<MvvmAsset> assets)
