@@ -7,6 +7,9 @@ namespace MVVM.CoreEditor
 {
     public class MvvmExplorerWindow : EditorWindow
     {
+        private const string StyleSheetPath =
+            "Packages/com.mtg.mvvm/Editor/Explorer/MvvmExplorerStyles.uss";
+
         private readonly MvvmAssetRepository _mvvmAssetRepository = new MvvmAssetRepository();
 
         private AssetListPanel _assetListPanel;
@@ -37,6 +40,10 @@ namespace MVVM.CoreEditor
 
         private void CreateGUI()
         {
+            rootVisualElement.AddToClassList("mvvm-explorer");
+            ApplyTheme();
+            ApplyStyleSheet();
+
             Toolbar toolbar = new Toolbar();
 
             ToolbarButton createButton = new ToolbarButton(ShowCreatePopup);
@@ -70,6 +77,27 @@ namespace MVVM.CoreEditor
         private void ShowCreatePopup()
         {
             CreateMvvmAssetPopup.ShowPopup(LoadAssets);
+        }
+
+        private void ApplyTheme()
+        {
+            if (EditorGUIUtility.isProSkin)
+            {
+                rootVisualElement.AddToClassList("theme-dark");
+                return;
+            }
+
+            rootVisualElement.AddToClassList("theme-light");
+        }
+
+        private void ApplyStyleSheet()
+        {
+            StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(StyleSheetPath);
+
+            if (styleSheet == null)
+                return;
+
+            rootVisualElement.styleSheets.Add(styleSheet);
         }
 
         private void OnDisable()
