@@ -30,6 +30,7 @@ namespace MVVM.CoreEditor
 
         public VisualElement Root => _root;
         public Action<MvvmAsset> OnAssetSelected { get; set; }
+        public Action OnCollapsedGroupsChanged { get; set; }
 
         public MvvmListPanel()
         {
@@ -70,6 +71,19 @@ namespace MVVM.CoreEditor
             RebuildRows();
         }
 
+        public void SetCollapsedGroups(IEnumerable<string> groupNames)
+        {
+            _collapsedGroups.Clear();
+
+            foreach (string groupName in groupNames)
+                _collapsedGroups.Add(groupName);
+        }
+
+        public List<string> GetCollapsedGroups()
+        {
+            return new List<string>(_collapsedGroups);
+        }
+
         public void SelectAssetWithGuid(string guid)
         {
             int rowIndex = _visibleRows.FindIndex(row => IsRowForGuid(row, guid));
@@ -93,6 +107,7 @@ namespace MVVM.CoreEditor
             string groupName = GetGroupNameWithAsset(asset);
             _collapsedGroups.Remove(groupName);
             RebuildRows();
+            OnCollapsedGroupsChanged?.Invoke();
 
             int rowIndex = _visibleRows.FindIndex(row => IsRowForGuid(row, guid));
 
@@ -336,12 +351,18 @@ namespace MVVM.CoreEditor
             if (_collapsedGroups.Contains(groupName))
             {
                 _collapsedGroups.Remove(groupName);
-                RebuildRows();
+                HandleCollapsedGroupsChanged();
                 return;
             }
 
             _collapsedGroups.Add(groupName);
+            HandleCollapsedGroupsChanged();
+        }
+
+        private void HandleCollapsedGroupsChanged()
+        {
             RebuildRows();
+            OnCollapsedGroupsChanged?.Invoke();
         }
 
         private void RaiseAssetSelected(IEnumerable<object> selectedItems)

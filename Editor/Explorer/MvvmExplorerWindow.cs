@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
@@ -9,6 +10,9 @@ namespace MVVM.CoreEditor
     {
         private const string StyleSheetPath =
             "Packages/com.mtg.mvvm/Editor/Explorer/MvvmExplorerStyles.uss";
+
+        private const string CollapsedGroupsSessionKey = "MVVM.CoreEditor.MvvmExplorerWindow.CollapsedGroups";
+        private const char CollapsedGroupsDelimiter = '|';
 
         private readonly MvvmAssetRepository _mvvmAssetRepository = new MvvmAssetRepository();
 
@@ -58,6 +62,8 @@ namespace MVVM.CoreEditor
             _referencesPanel = new ReferencesPanel();
             _runtimePanel = new RuntimePanel();
             _assetListPanel.OnAssetSelected = ShowAssetDetail;
+            _assetListPanel.OnCollapsedGroupsChanged = SaveCollapsedGroups;
+            _assetListPanel.SetCollapsedGroups(GetPersistedCollapsedGroups());
 
             TwoPaneSplitView detailSplitView =
                 new TwoPaneSplitView(0, 300, TwoPaneSplitViewOrientation.Vertical);
@@ -103,6 +109,24 @@ namespace MVVM.CoreEditor
         private void OnDisable()
         {
             _runtimePanel?.Dispose();
+        }
+
+        private List<string> GetPersistedCollapsedGroups()
+        {
+            string storedGroups = SessionState.GetString(CollapsedGroupsSessionKey, string.Empty);
+
+            if (string.IsNullOrEmpty(storedGroups))
+                return new List<string>();
+
+            return new List<string>(storedGroups.Split(CollapsedGroupsDelimiter));
+        }
+
+        private void SaveCollapsedGroups()
+        {
+            string storedGroups = string.Join(
+                CollapsedGroupsDelimiter.ToString(), _assetListPanel.GetCollapsedGroups());
+
+            SessionState.SetString(CollapsedGroupsSessionKey, storedGroups);
         }
 
         private void ShowAssetDetail(MvvmAsset asset)
