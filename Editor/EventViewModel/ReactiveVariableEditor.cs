@@ -1,22 +1,22 @@
-﻿using System.Collections.Generic;
-using MVVM.Core;
+﻿using MVVM.Core;
 using UnityEditor;
 using UnityEngine;
 
 namespace MVVM.CoreEditor
 {
-    [CustomEditor(typeof(ReactiveVariableSO<>), true)]
+    [CustomEditor(typeof(BaseReactiveVariableSO), true)]
     public class ReactiveVariableEditor : Editor
     {
-        private List<Component> _allComponentReferences;
-
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
 
             BaseReactiveVariableSO reactiveVariableSo = (BaseReactiveVariableSO)target;
-            
+
             DrawRaiseEventIfIsPlaying(reactiveVariableSo);
+
+            if (GUILayout.Button("Open In MVVM Explorer"))
+                MvvmExplorerWindow.ShowWindowWithAsset(reactiveVariableSo);
         }
 
         private void DrawRaiseEventIfIsPlaying(BaseReactiveVariableSO baseReactiveVariableSo)

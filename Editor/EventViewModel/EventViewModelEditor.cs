@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using MVVM.Core;
 using UnityEditor;
@@ -10,8 +9,6 @@ namespace MVVM.CoreEditor
     [CustomEditor(typeof(EventViewModelSO), true)]
     public class EventViewModelEditor : Editor
     {
-        private List<Component> _allComponentReferences;
-
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
@@ -21,26 +18,21 @@ namespace MVVM.CoreEditor
 
             DrawRaiseEventIfIsPlaying(eventViewModel);
 
-            if (GUILayout.Button("Open References Searcher"))
-                DrawSearchReferenceInTheScene();
+            if (GUILayout.Button("Open In MVVM Explorer"))
+                MvvmExplorerWindow.ShowWindowWithAsset(eventViewModelSo);
 
             DrawSubscribedObjects(eventViewModel);
         }
 
         private void DrawRaiseEventIfIsPlaying(IEventViewModel eventViewModel)
         {
-            if (!EditorApplication.isPlaying) 
+            if (!EditorApplication.isPlaying)
                 return;
-            
+
             if (GUILayout.Button("Raise Event"))
                 eventViewModel.RaiseEvent();
         }
-        
-        private void DrawSearchReferenceInTheScene()
-        {
-            EventViewModelReferencesEditorWindow.ShowWindow();   
-        }
-        
+
         private void DrawSubscribedObjects(IEventViewModel eventViewModel)
         {
             object[] subscribedObjects = GetSubscribers(eventViewModel.OnEventRaised);
