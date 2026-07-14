@@ -11,6 +11,7 @@ namespace MVVM.CoreEditor
 
         private AssetListPanel _assetListPanel;
         private ReferencesPanel _referencesPanel;
+        private RuntimePanel _runtimePanel;
         private ReferenceIndex _referenceIndex;
         private string _pendingSelectionGuid;
 
@@ -36,6 +37,8 @@ namespace MVVM.CoreEditor
 
         private void CreateGUI()
         {
+            _runtimePanel?.Dispose();
+
             Toolbar toolbar = new Toolbar();
 
             ToolbarButton rebuildButton = new ToolbarButton(RebuildIndex);
@@ -44,11 +47,17 @@ namespace MVVM.CoreEditor
 
             _assetListPanel = new AssetListPanel();
             _referencesPanel = new ReferencesPanel();
+            _runtimePanel = new RuntimePanel();
             _assetListPanel.OnAssetSelected = ShowAssetDetail;
+
+            TwoPaneSplitView detailSplitView =
+                new TwoPaneSplitView(0, 300, TwoPaneSplitViewOrientation.Vertical);
+            detailSplitView.Add(_referencesPanel.Root);
+            detailSplitView.Add(_runtimePanel.Root);
 
             TwoPaneSplitView splitView = new TwoPaneSplitView(0, 280, TwoPaneSplitViewOrientation.Horizontal);
             splitView.Add(_assetListPanel.Root);
-            splitView.Add(_referencesPanel.Root);
+            splitView.Add(detailSplitView);
 
             rootVisualElement.Add(toolbar);
             rootVisualElement.Add(splitView);
@@ -56,9 +65,15 @@ namespace MVVM.CoreEditor
             LoadAssets();
         }
 
+        private void OnDisable()
+        {
+            _runtimePanel?.Dispose();
+        }
+
         private void ShowAssetDetail(MvvmAsset asset)
         {
             _referencesPanel.ShowAsset(asset, _referenceIndex);
+            _runtimePanel.ShowAsset(asset);
         }
 
         private void RebuildIndex()
