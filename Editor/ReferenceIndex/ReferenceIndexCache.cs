@@ -12,6 +12,19 @@ namespace MVVM.CoreEditor
 
         public ReferenceIndex Load()
         {
+            try
+            {
+                return LoadFromDisk();
+            }
+            catch (Exception exception)
+            {
+                Debug.LogWarning($"MVVM Explorer could not read the reference index cache, rebuilding: {exception.Message}");
+                return null;
+            }
+        }
+
+        private ReferenceIndex LoadFromDisk()
+        {
             if (!File.Exists(CacheFilePath))
                 return null;
 

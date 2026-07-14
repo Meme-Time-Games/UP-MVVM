@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace MVVM.CoreEditor
 {
+    [InitializeOnLoad]
     public static class ReferenceIndexProvider
     {
         private static readonly ReferenceIndexCache _cache = new ReferenceIndexCache();
@@ -11,6 +14,12 @@ namespace MVVM.CoreEditor
 
         private static ReferenceIndex _referenceIndex;
         private static bool _isBuilding;
+
+        static ReferenceIndexProvider()
+        {
+            AssemblyReloadEvents.beforeAssemblyReload += SaveIndex;
+            EditorApplication.quitting += SaveIndex;
+        }
 
         public static bool HasIndex()
         {
@@ -89,6 +98,21 @@ namespace MVVM.CoreEditor
             catch (Exception exception)
             {
                 Debug.LogException(exception);
+            }
+        }
+
+        private static void SaveIndex()
+        {
+            if (!HasIndex())
+                return;
+
+            try
+            {
+                _cache.Save(_referenceIndex);
+            }
+            catch (IOException exception)
+            {
+                Debug.LogWarning($"MVVM Explorer could not save the reference index cache: {exception.Message}");
             }
         }
     }

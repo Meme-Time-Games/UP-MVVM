@@ -126,8 +126,20 @@ namespace MVVM.CoreEditor
         private void FinishBuild()
         {
             StopBuild();
-            _referenceIndexCache.Save(_referenceIndex);
+            SaveIndexSafely();
             _onBuilt?.Invoke(_referenceIndex);
+        }
+
+        private void SaveIndexSafely()
+        {
+            try
+            {
+                _referenceIndexCache.Save(_referenceIndex);
+            }
+            catch (IOException exception)
+            {
+                Debug.LogWarning($"MVVM Explorer could not save the reference index cache: {exception.Message}");
+            }
         }
 
         private void StopBuild()
