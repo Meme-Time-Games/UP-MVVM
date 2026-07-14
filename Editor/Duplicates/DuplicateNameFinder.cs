@@ -43,7 +43,7 @@ namespace MVVM.CoreEditor
 
             foreach (string otherName in names)
             {
-                if (GetDistance(normalizedName, Normalize(otherName)) >= MaximumDistance)
+                if (GetDistance(normalizedName, Normalize(otherName)) > MaximumDistance)
                     continue;
 
                 similarNames.Add(otherName);
@@ -62,7 +62,7 @@ namespace MVVM.CoreEditor
                 if (groupedIndexes.Contains(otherIndex))
                     continue;
 
-                if (GetDistance(currentName, Normalize(names[otherIndex])) >= MaximumDistance)
+                if (GetDistance(currentName, Normalize(names[otherIndex])) > MaximumDistance)
                     continue;
 
                 group.Add(names[otherIndex]);

@@ -72,10 +72,10 @@ namespace MVVM.CoreEditor.Tests
         }
 
         [Test]
-        public void GetDuplicateGroups_WhenOnPrefixIsPartOfAWordNotAnEvent_DoesNotGroupThem()
+        public void GetDuplicateGroups_WhenOnPrefixWouldOnlyMatchViaOldManglingBug_DoesNotGroupThem()
         {
             DuplicateNameFinder duplicateNameFinder = new DuplicateNameFinder();
-            List<string> names = new List<string> { "OnboardingFinished", "BoardingFinished" };
+            List<string> names = new List<string> { "OnboardingFinished", "BoardingFinishedX" };
 
             IReadOnlyList<IReadOnlyList<string>> duplicateGroups = duplicateNameFinder.GetDuplicateGroups(names);
 
@@ -149,12 +149,12 @@ namespace MVVM.CoreEditor.Tests
         }
 
         [Test]
-        public void GetSimilarNamesWithName_WhenOnPrefixIsPartOfAWordNotAnEvent_DoesNotReturnIt()
+        public void GetSimilarNamesWithName_WhenOnPrefixWouldOnlyMatchViaOldManglingBug_DoesNotReturnIt()
         {
             DuplicateNameFinder duplicateNameFinder = new DuplicateNameFinder();
             List<string> names = new List<string> { "OnboardingFinished" };
 
-            IReadOnlyList<string> similarNames = duplicateNameFinder.GetSimilarNamesWithName("BoardingFinished", names);
+            IReadOnlyList<string> similarNames = duplicateNameFinder.GetSimilarNamesWithName("BoardingFinishedX", names);
 
             Assert.IsEmpty(similarNames);
         }
