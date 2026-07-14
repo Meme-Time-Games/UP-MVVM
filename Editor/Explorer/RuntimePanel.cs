@@ -71,6 +71,8 @@ namespace MVVM.CoreEditor
 
         private void ShowReactiveVariable(BaseReactiveVariableSO baseReactiveVariableSo)
         {
+            _eventRaiseRecorder.Dispose();
+
             if (baseReactiveVariableSo == null)
                 return;
 
@@ -113,7 +115,9 @@ namespace MVVM.CoreEditor
                 return;
 
             _eventRaiseRecorder.Dispose();
-            Refresh();
+
+            _root.Clear();
+            _root.Add(new Label("Enter play mode to inspect runtime state."));
         }
     }
 }
