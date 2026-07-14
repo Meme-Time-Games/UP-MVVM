@@ -16,10 +16,10 @@ namespace MVVM.CoreEditor
 
             Dictionary<string, string> menuNames = GetMenuNames();
 
-            if (!menuNames.ContainsKey(typeName))
+            if (!menuNames.TryGetValue(typeName, out string menuName))
                 return string.Empty;
 
-            return menuNames[typeName];
+            return menuName;
         }
 
         private Dictionary<string, string> GetMenuNames()
@@ -47,7 +47,26 @@ namespace MVVM.CoreEditor
             if (string.IsNullOrEmpty(createAssetMenu.menuName))
                 return;
 
-            _menuNamesByTypeName[scriptableObjectType.Name] = createAssetMenu.menuName;
+            string typeName = scriptableObjectType.Name;
+
+            if (_menuNamesByTypeName.ContainsKey(typeName))
+            {
+                WarnOnConflictingMenuName(typeName, scriptableObjectType, createAssetMenu.menuName);
+                return;
+            }
+
+            _menuNamesByTypeName[typeName] = createAssetMenu.menuName;
+        }
+
+        private void WarnOnConflictingMenuName(string typeName, Type scriptableObjectType, string menuName)
+        {
+            if (_menuNamesByTypeName[typeName] == menuName)
+                return;
+
+            Debug.LogWarning(
+                $"MVVM Explorer found two ScriptableObject types named '{typeName}' with different " +
+                $"CreateAssetMenu paths ('{_menuNamesByTypeName[typeName]}' and '{menuName}', the second from " +
+                $"'{scriptableObjectType.FullName}'). The first is used for grouping.");
         }
     }
 }
