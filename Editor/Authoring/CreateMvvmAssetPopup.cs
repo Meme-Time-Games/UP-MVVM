@@ -23,6 +23,8 @@ namespace MVVM.CoreEditor
         private TextField _folderField;
         private Label _warningLabel;
 
+        public Action OnCreated { get; set; }
+
         public static void ShowPopup(Action onCreated)
         {
             CreateMvvmAssetPopup popup = CreateInstance<CreateMvvmAssetPopup>();
@@ -30,8 +32,6 @@ namespace MVVM.CoreEditor
             popup.OnCreated = onCreated;
             popup.ShowUtility();
         }
-
-        public Action OnCreated { get; set; }
 
         private void CreateGUI()
         {
@@ -84,6 +84,12 @@ namespace MVVM.CoreEditor
 
         private void CreateAsset()
         {
+            if (string.IsNullOrWhiteSpace(_nameField.value))
+            {
+                ShowCreationError("Enter a name for the asset.");
+                return;
+            }
+
             Type assetType = _creatableTypes[_typeField.index];
 
             try
@@ -99,23 +105,23 @@ namespace MVVM.CoreEditor
             }
             catch (DirectoryNotFoundException directoryNotFoundException)
             {
-                ShowCreationError(directoryNotFoundException);
+                ShowCreationError(directoryNotFoundException.Message);
             }
             catch (InvalidOperationException invalidOperationException)
             {
-                ShowCreationError(invalidOperationException);
+                ShowCreationError(invalidOperationException.Message);
             }
         }
 
-        private void ShowCreationError(Exception exception)
+        private void ShowCreationError(string message)
         {
             _warningLabel.style.color = Color.red;
-            _warningLabel.text = exception.Message;
+            _warningLabel.text = message;
         }
 
         private string GetSelectedFolderPath()
         {
-            if (ReferenceEquals(Selection.activeObject, null))
+            if (Selection.activeObject == null)
                 return DefaultFolderPath;
 
             string selectedPath = AssetDatabase.GetAssetPath(Selection.activeObject);

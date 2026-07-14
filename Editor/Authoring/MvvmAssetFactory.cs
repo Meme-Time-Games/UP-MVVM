@@ -25,7 +25,7 @@ namespace MVVM.CoreEditor
 
             string assetPath = Path.Combine(folderPath, $"{assetName}.asset").Replace("\\", "/");
 
-            if (!ReferenceEquals(AssetDatabase.LoadMainAssetAtPath(assetPath), null))
+            if (AssetDatabase.LoadMainAssetAtPath(assetPath) != null)
                 throw new InvalidOperationException($"An asset already exists at '{assetPath}'.");
 
             ScriptableObject createdAsset = ScriptableObject.CreateInstance(assetType);

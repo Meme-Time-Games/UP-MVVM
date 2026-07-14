@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using MVVM.CoreEditor;
 using NUnit.Framework;
 
 namespace MVVM.CoreEditor.Tests

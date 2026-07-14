@@ -37,8 +37,6 @@ namespace MVVM.CoreEditor
 
         private void CreateGUI()
         {
-            _runtimePanel?.Dispose();
-
             Toolbar toolbar = new Toolbar();
 
             ToolbarButton createButton = new ToolbarButton(ShowCreatePopup);
@@ -107,6 +105,7 @@ namespace MVVM.CoreEditor
                 return;
 
             _assetListPanel.SelectAssetWithGuid(_pendingSelectionGuid);
+            _pendingSelectionGuid = null;
         }
     }
 }

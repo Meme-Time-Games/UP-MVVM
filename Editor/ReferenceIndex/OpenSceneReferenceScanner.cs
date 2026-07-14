@@ -36,21 +36,23 @@ namespace MVVM.CoreEditor
 
         private bool HasReferenceToAsset(Component component, Object targetAsset)
         {
-            SerializedObject serializedComponent = new SerializedObject(component);
-            SerializedProperty serializedProperty = serializedComponent.GetIterator();
-
-            while (serializedProperty.NextVisible(true))
+            using (SerializedObject serializedComponent = new SerializedObject(component))
             {
-                if (serializedProperty.propertyType != SerializedPropertyType.ObjectReference)
-                    continue;
+                SerializedProperty serializedProperty = serializedComponent.GetIterator();
 
-                if (serializedProperty.objectReferenceValue != targetAsset)
-                    continue;
+                while (serializedProperty.NextVisible(true))
+                {
+                    if (serializedProperty.propertyType != SerializedPropertyType.ObjectReference)
+                        continue;
 
-                return true;
+                    if (serializedProperty.objectReferenceValue != targetAsset)
+                        continue;
+
+                    return true;
+                }
+
+                return false;
             }
-
-            return false;
         }
 
         private IEnumerable<GameObject> GetAllGameObjectsInOpenScenes()
